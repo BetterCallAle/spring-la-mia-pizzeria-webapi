@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="~{fragments/fragments :: resources(${pizza.name})}"></div>
+</head>
+<body>
+    <header th:insert="~{fragments/fragments :: header('', '', false)}"></header>
+    <div class="container py-4 text-center">
+        <h1 class="text-danger mb-1" th:text="${pizza.name}"></h1>
+        <p th:text="${pizza.description}"></p>
+        <p th:text="|${pizza.price} €|"></p>
+        <div th:if="${pizza.ingredients.size() > 0}" class="ingredients my-4">
+            <h6>INGREDIENTI:</h6>
+            <ul class="ingredient-list">
+                <li th:each="ingredient : ${pizza.ingredients}" th:text="${ingredient.name}"></li>
+            </ul>
+        </div>
+
+        <!--Special offers-->
+        <div class="mt-2">
+            <a class="btn btn-danger" th:href="@{/special-offer/create(id=${pizza.id})}" sec:authorize="hasAuthority('ADMIN')">
+                <i class="fa-solid fa-plus"></i> Aggiungi un'offerta
+            </a>
+            <div class="mt-4" th:if="${pizza.specialOffers.size() != 0}">
+                <h6>Le offerte</h6>
+                <table class="table" th:object="${pizza}">
+                    <thead>
+                        <tr>
+                            <th scope="col">Titolo dello sconto</th>
+                            <th scope="col">Data inizio</th>
+                            <th scope="col">Data fine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="offer : *{specialOffers}">
+                            <td th:text="${offer.title}"></td>
+                            <td th:text="${#temporals.format(offer.startingDate, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${#temporals.format(offer.endingDate, 'dd/MM/yyyy')}"></td>
+                            <td>
+                                <a class="btn btn-danger" th:href="@{|/special-offer/edit/*{id}|}" sec:authorize="hasAuthority('ADMIN')">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

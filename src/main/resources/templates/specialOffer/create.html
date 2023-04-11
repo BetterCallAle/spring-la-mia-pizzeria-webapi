@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="~{fragments/fragments :: resources('Crea un nuovo sconto')}"></div>
+</head>
+<body>
+    <header th:insert="~{fragments/fragments :: header('create-offer', '', false)}"></header>
+    <div class="container py-4">
+        <form class="col-10" method="POST" th:action="@{/special-offer/create}" th:object="${specialOffer}">
+            <div class="mb-3">
+                <label for="title" class="form-label">Titolo dell'offerta</label>
+                <input type="text" class="form-control" id="title" aria-describedby="title" th:field="*{title}">
+            </div>
+
+            <div class="mb-3">
+                <label for="startingDate" class="form-label">Data inizio</label>
+                <input type="date" class="form-control" id="startingDate" aria-describedby="startingDate" th:field="*{startingDate}">
+            </div>
+
+            <div class="mb-3">
+                <label for="endingDate" class="form-label">Data di fine</label>
+                <input type="date" class="form-control" id="endingDate" aria-describedby="endingDate" th:field="*{endingDate}">
+            </div>
+
+            <input type="hidden" class="form-control" id="pizza" aria-describedby="pizza" th:field="*{pizza}">
+
+            <button type="submit" class="btn btn-danger">Invia</button>
+            <button type="reset" class="btn btn-secondary">Resetta</button>
+        </form>
+    </div>
+</body>
+</html>

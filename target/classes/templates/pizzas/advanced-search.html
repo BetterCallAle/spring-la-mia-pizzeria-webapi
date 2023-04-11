@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="~{fragments/fragments :: resources('Ricerca Avanzata')}"></div>
+</head>
+<body>
+    <header th:insert="~{fragments/fragments :: header('advanced-search', '', false)}"></header>
+    <div class="container py-4">
+
+        <form method="GET" th:action="@{/pizzas}">
+            <div class="mb-3 d-inline-block w-75">
+                <label for="name" class="form-label">Nome della pizza</label>
+                <input type="text" class="form-control" id="name" aria-describedby="name" name="s">
+            </div>
+
+            <div class="mb-3 d-inline-block">
+                <label for="price" class="form-label">Prezzo massimo</label>
+                <input type="number" class="form-control" id="price" aria-describedby="price" name="p">
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-danger">Cerca</button>
+                <button class="btn btn-secondary" type="reset">Resetta</button>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

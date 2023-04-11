@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="~{fragments/fragments :: resources('Tutte le nostre pizze')}"></div>
+</head>
+<body>
+    <header th:insert="~{fragments/fragments :: header('pizzas', ${search}, true)}"></header>
+    <div class="container py-4">
+
+        <h1 class="text-center">Tutte le nostre pizze</h1>
+
+        <th:block th:if="${success}">
+            <div th:replace="~{fragments/messages :: success(${success})}"></div>
+        </th:block>
+
+        <th:block th:if="${danger}">
+            <div th:replace="~{fragments/messages :: danger(${danger})}"></div>
+        </th:block>
+
+        <div th:if="${pizzas.size() == 0}">
+            <h2>Non sono state trovate pizze</h2>
+        </div>
+
+        <table class="table" th:unless="${pizzas.size() == 0}">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Descrizione</th>
+                    <th scope="col">Prezzo</th>
+                    <th scope="col">Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pizza : ${pizzas}" th:object="${pizza}">
+                    <th th:text="*{name}"></th>
+                    <td th:text="*{description}"></td>
+                    <td th:text="|*{price} €|"></td>
+                    <td>
+                        <a th:href="@{|/pizzas/*{id}|}" class="btn btn-danger">
+                            <i class="fa-solid fa-pizza-slice"></i>
+                        </a>
+                        <a th:href="@{|/pizzas/edit/*{id}|}" class="btn btn-danger" sec:authorize="hasAuthority('ADMIN')">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+
+                        <form class="d-inline" th:action="@{|/pizzas/delete/*{id}|}" method="POST" sec:authorize="hasAuthority('ADMIN')">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--JS-->
+    <script th:href="@{/js/scrpit.js}"></script>
+</body>
+</html>

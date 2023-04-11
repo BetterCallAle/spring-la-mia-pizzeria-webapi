@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="fragments/fragments :: resources(|Error ${status}|)"></div>
+</head>
+<body class="error-body">
+    <div class="container text-center py-5">
+        <div class="hit-the-floor">Error [[${status}]]</div>
+        <div>
+            <a th:href="@{/pizzas}" class="btn btn-danger">Torna alla pagina Home</a>
+        </div>
+        <img th:src="@{pizza-error.gif}">
+    </div>
+</body>
+</html>

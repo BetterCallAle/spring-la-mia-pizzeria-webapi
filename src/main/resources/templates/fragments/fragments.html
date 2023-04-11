@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <th:block th:fragment="resources(title)">
+        <!--Bootstrap-->
+        <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+        <script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js}"></script>
+        <!--FontAwesome-->
+        <link rel="stylesheet" th:href="@{/webjars/font-awesome/6.3.0/css/all.min.css}">
+        <!--CSS-->
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <!--Title-->
+        <title th:text="${title}"></title>
+    </th:block>
+</head>
+<body>
+    <th:block th:fragment="header(link, search, searchBar)">
+        <div class="my-logo py-4 text-center">
+            <a class="navbar-brand my-logo-text" th:href="@{'/'}" th:classAppend="${link == 'home'} ? 'my-active' : 'not-active'">
+                ALESSIO'S
+                <img class="logo-img" th:src="@{logo.png}">
+            </a>
+        </div>
+
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" th:href="@{'/pizzas'}" th:classAppend="${link == 'pizzas'} ? 'my-active' : 'not-active'">Tutte le pizze</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{'/pizzas/advanced-search'}" th:classAppend="${link == 'advanced-search'} ? 'my-active' : 'not-active' " class="nav-link">Ricerca avanzata</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{'/pizzas/create'}" th:classAppend="${link == 'add-pizza'} ? 'my-active' : 'not-active' " class="nav-link" sec:authorize="hasAuthority('ADMIN')">Aggiungi una pizza</a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{'/ingredients'}" th:classAppend="${link == 'ingredients'} ? 'my-active' : 'not-active' " class="nav-link" sec:authorize="hasAuthority('ADMIN')">Ingredienti</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--Logout-->
+                <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
+                <!--Search-->
+                <form method="GET" th:action="@{/pizzas}" class="d-flex justify-self-end ms-2" role="search" th:if="${searchBar}">
+                    <input class="form-control me-1" type="search" placeholder="Cerca una pizza" aria-label="Search" name="s" th:value="${search}">
+                    <button class="btn btn-outline-danger" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+        </nav>
+    </th:block>
+
+</body>
+</html>

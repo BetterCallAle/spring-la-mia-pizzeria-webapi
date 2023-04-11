@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="~{fragments/fragments :: resources('Tutti gli ingredienti')}"></div>
+</head>
+<body>
+    <header th:insert="~{fragments/fragments :: header('ingredients', null, false)}"></header>
+    <div class="container py-4">
+        <div class="row justify-content-between">
+            <div class="col-12 col-lg-5">
+                <h2 class="mb-2">Tutti gli ingredienti:</h2>
+                <ul class="list-group">
+
+                    <li th:each="ingredient : ${ingredients}" class="list-group-item d-flex justify-content-between">
+
+                        <a th:href="@{/ingredients(id=${ingredient.id})}" th:text="${ingredient.name}"></a>
+
+                        <form class="d-inline" th:action="@{|/ingredients/delete/${ingredient.id}|}" method="POST">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-lg-5">
+                <h2 class="mb-2">Aggiungi un ingrediente</h2>
+
+                <form th:if="${ingredientUpdate}" th:action="@{|/ingredients/update/${ingredientUpdate.id}|}" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome ingrediente:</label>
+                        <input type="text" class="form-control" id="name" aria-describedby="name" th:field="${ingredientUpdate.name}" th:errorClass="is-invalid">
+
+                        <!--<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                            <ul>
+                                <li th:each="error : ${#fields.errors('name')}" th:text="${error}"></li>
+                            </ul>
+                        </div>-->
+                    </div>
+                    <button class="btn btn-danger" type="submit">Aggiungi</button>
+                </form>
+
+                <form th:if="${singleIngredient}" th:action="@{/ingredients/create}" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome ingrediente:</label>
+                        <input type="text" class="form-control" id="name" aria-describedby="name" th:field="${singleIngredient.name}" th:errorClass="is-invalid">
+
+                        <!--<div class="invalid-feedback" th:if="${#fields.hasErrors('singleIngredient.name')}">
+                               <ul>
+                                   <li th:each="error : ${#fields.errors('singleIngredient.name')}" th:text="${error}"></li>
+                               </ul>
+                           </div>-->
+                    </div>
+                    <button class="btn btn-danger" type="submit">Aggiungi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
